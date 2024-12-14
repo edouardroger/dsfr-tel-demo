@@ -17,7 +17,7 @@ export default defineComponent({
         const isValid = phoneInput.value.validatePhoneNumber();
         if (isValid) {
           isPhoneNumberValid.value = true;
-          phoneNumber.value = phoneInput.value.phoneNumber;
+          phoneNumber.value = phoneInput.value.getPhoneNumberFormatted();
         } else {
           isPhoneNumberValid.value = false;
         }
