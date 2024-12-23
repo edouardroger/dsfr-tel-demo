@@ -12,7 +12,8 @@ export default defineComponent({
     const isPhoneNumberValid = ref(false);
     const phoneNumber = ref('');
 
-    const validatePhone = () => {
+    const validatePhone = (e: Event) => {
+      e.preventDefault();
       if (phoneInput.value) {
         const isValid = phoneInput.value.validatePhoneNumber();
         if (isValid) {
@@ -39,12 +40,13 @@ export default defineComponent({
     <div class="fr-grid-row fr-grid-row--center fr-grid-row--middle" style="height: 100vh;">
       <div class="fr-col-5 fr-col-offset-1">
         <h1 class="fr-h4">Démonstration du paquet dsfr-tel</h1>
+        <form @submit="validatePhone">
+          <DsfrTel ref="phoneInput" label="Votre numéro de téléphone portable" hint="Au format national" />
 
-        <DsfrTel ref="phoneInput" label="Votre numéro de téléphone portable" hint="Au format national" />
-        
-        <div class="fr-mt-2w">
-          <button @click="validatePhone" class="fr-btn fr-btn--sm">Vérifier le numéro</button>
-        </div>
+          <div class="fr-mt-2w">
+            <button type="submit" class="fr-btn fr-btn--sm">Vérifier le numéro</button>
+          </div>
+        </form>
 
         <div class="fr-mt-2w">
           <p v-if="isPhoneNumberValid" class="fr-text-align-center">
