@@ -37,8 +37,8 @@ export default defineComponent({
 
 <template>
   <div class="fr-container fr-p-5w">
-    <div class="fr-grid-row fr-grid-row--center fr-grid-row--middle" style="height: 100vh;">
-      <div class="fr-col-5 fr-col-offset-1">
+    <div class="fr-grid-row fr-grid-row--center fr-grid-row--middle" style="min-height: 75vh;">
+      <div class="fr-col-lg-5 fr-col-offset-lg-1">
         <h1 class="fr-h4">Démonstration du paquet dsfr-tel</h1>
         <form @submit="validatePhone">
           <DsfrTel ref="phoneInput" label="Votre numéro de téléphone portable" hint="Au format national" />
