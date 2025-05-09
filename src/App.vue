@@ -10,7 +10,7 @@ export default defineComponent({
   setup() {
     const phoneInput = ref<typeof DsfrTel | null>(null);
     const isPhoneNumberValid = ref(false);
-    const phoneNumber = ref('');
+    const phoneNumbers = ref<{ [key: string]: string }>({});
 
     const validatePhone = (e: Event) => {
       e.preventDefault();
@@ -18,9 +18,15 @@ export default defineComponent({
         const isValid = phoneInput.value.validatePhoneNumber();
         if (isValid) {
           isPhoneNumberValid.value = true;
-          phoneNumber.value = phoneInput.value.getPhoneNumberFormatted();
+          phoneNumbers.value = {
+            national: phoneInput.value.getPhoneNumberFormatted('NATIONAL'),
+            e164: phoneInput.value.getPhoneNumberFormatted('E164'),
+            international: phoneInput.value.getPhoneNumberFormatted('INTERNATIONAL'),
+            rfc3966: phoneInput.value.getPhoneNumberFormatted('RFC3966')
+          };
         } else {
           isPhoneNumberValid.value = false;
+          phoneNumbers.value = {};
         }
       }
     };
@@ -28,7 +34,7 @@ export default defineComponent({
     return {
       phoneInput,
       isPhoneNumberValid,
-      phoneNumber,
+      phoneNumbers,
       validatePhone
     };
   }
@@ -48,10 +54,13 @@ export default defineComponent({
           </div>
         </form>
 
-        <div class="fr-mt-2w">
-          <p v-if="isPhoneNumberValid" class="fr-text-align-center">
-            Numéro de téléphone valide : {{ phoneNumber }}
-          </p>
+        <div class="fr-mt-2w fr-card fr-p-3w" v-if="isPhoneNumberValid">
+          <p>Numéro valide au format :</p>
+          <ul>
+            <li v-for="(formatted, format) in phoneNumbers" :key="format">
+              {{ format }} : {{ formatted }}
+            </li>
+          </ul>
         </div>
       </div>
     </div>
