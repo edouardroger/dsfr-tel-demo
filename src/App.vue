@@ -40,14 +40,13 @@ export default defineComponent({
   }
 });
 </script>
-
 <template>
-  <div class="fr-container fr-p-5w">
+  <div class="fr-container">
     <div class="fr-grid-row fr-grid-row--center fr-grid-row--middle" style="min-height: 75vh;">
-      <div class="fr-col-lg-5 fr-col-offset-lg-1">
+      <div class="fr-col-12 fr-col-lg-5 fr-col-offset-lg-1">
         <h1 class="fr-h4">Démonstration du paquet dsfr-tel</h1>
         <form @submit="validatePhone">
-          <DsfrTel ref="phoneInput" label="Votre numéro de téléphone portable" hint="Au format national" />
+          <DsfrTel ref="phoneInput" fieldsetLegend="Votre numéro de téléphone portable" />
 
           <div class="fr-mt-2w">
             <button type="submit" class="fr-btn fr-btn--sm">Vérifier le numéro</button>
@@ -72,5 +71,5 @@ export default defineComponent({
 </template>
 
 <style scoped>
-@import 'https://cdn.jsdelivr.net/npm/@gouvfr/dsfr@1.12.1/dist/dsfr.min.css';
+@import 'https://cdn.jsdelivr.net/npm/@gouvfr/dsfr@1.13.1/dist/dsfr.min.css';
 </style>
