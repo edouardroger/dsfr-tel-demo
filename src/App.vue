@@ -14,20 +14,20 @@ export default defineComponent({
 
     const validatePhone = (e: Event) => {
       e.preventDefault();
-      if (phoneInput.value) {
-        const isValid = phoneInput.value.validatePhoneNumber();
-        if (isValid) {
-          isPhoneNumberValid.value = true;
-          phoneNumbers.value = {
-            national: phoneInput.value.getPhoneNumberFormatted('NATIONAL'),
-            e164: phoneInput.value.getPhoneNumberFormatted('E164'),
-            international: phoneInput.value.getPhoneNumberFormatted('INTERNATIONAL'),
-            rfc3966: phoneInput.value.getPhoneNumberFormatted('RFC3966')
-          };
-        } else {
-          isPhoneNumberValid.value = false;
-          phoneNumbers.value = {};
-        }
+      if (!phoneInput.value) return;
+
+      const isValid = phoneInput.value.validatePhoneNumber();
+      if (isValid) {
+        isPhoneNumberValid.value = true;
+        phoneNumbers.value = {
+          national: phoneInput.value.getPhoneNumberFormatted('NATIONAL'),
+          e164: phoneInput.value.getPhoneNumberFormatted('E164'),
+          international: phoneInput.value.getPhoneNumberFormatted('INTERNATIONAL'),
+          rfc3966: phoneInput.value.getPhoneNumberFormatted('RFC3966')
+        };
+      } else {
+        isPhoneNumberValid.value = false;
+        phoneNumbers.value = {};
       }
     };
 
@@ -46,7 +46,7 @@ export default defineComponent({
       <div class="fr-col-12 fr-col-lg-5 fr-col-offset-lg-1">
         <h1 class="fr-h4">Démonstration du paquet dsfr-tel</h1>
         <form @submit="validatePhone">
-          <DsfrTel ref="phoneInput" fieldsetLegend="Votre numéro de téléphone portable" />
+          <DsfrTel ref="phoneInput" fieldsetLegend="Votre numéro de téléphone portable" required />
 
           <div class="fr-mt-2w">
             <button type="submit" class="fr-btn fr-btn--sm">Vérifier le numéro</button>
@@ -65,7 +65,8 @@ export default defineComponent({
     </div>
 
     <div class="fr-text-align-center fr-mt-3w">
-      <p><a href="https://github.com/edouardroger/dsfr-tel" class="fr-link">Informations sur le paquet</a></p>
+      <p><a href="https://github.com/edouardroger/dsfr-tel" class="fr-link" target="_blank"
+          rel="noopener noreferrer">Informations sur le paquet</a></p>
     </div>
   </div>
 </template>
