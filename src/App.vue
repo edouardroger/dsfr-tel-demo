@@ -47,17 +47,16 @@ export default defineComponent({
         <h1 class="fr-h4">Démonstration du paquet dsfr-tel</h1>
         <form @submit="validatePhone">
           <DsfrTel ref="phoneInput" fieldsetLegend="Votre numéro de téléphone portable" required />
-
           <div class="fr-mt-2w">
             <button type="submit" class="fr-btn fr-btn--sm">Vérifier le numéro</button>
           </div>
         </form>
 
         <div class="fr-mt-2w fr-card fr-p-3w" v-if="isPhoneNumberValid">
-          <p>Numéro valide au format :</p>
+          <p>Numéro valide au format :</p>
           <ul>
             <li v-for="(formatted, format) in phoneNumbers" :key="format">
-              {{ format }} : {{ formatted }}
+              {{ String(format).charAt(0).toUpperCase() + String(format).slice(1) }} : {{ formatted }}
             </li>
           </ul>
         </div>
@@ -65,8 +64,11 @@ export default defineComponent({
     </div>
 
     <div class="fr-text-align-center fr-mt-3w">
-      <p><a href="https://github.com/edouardroger/dsfr-tel" class="fr-link" target="_blank"
-          rel="noopener noreferrer">Informations sur le paquet</a></p>
+      <p>
+        <a href="https://github.com/edouardroger/dsfr-tel" class="fr-link" target="_blank" rel="noopener noreferrer">
+          Informations sur le paquet
+        </a>
+      </p>
     </div>
   </div>
 </template>
