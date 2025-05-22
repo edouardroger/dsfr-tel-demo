@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, nextTick } from 'vue';
 import DsfrTel from 'dsfr-tel';
 
 export default defineComponent({
@@ -9,10 +9,11 @@ export default defineComponent({
   },
   setup() {
     const phoneInput = ref<typeof DsfrTel | null>(null);
+    const phoneValidCard = ref<HTMLDivElement | null>(null);
     const isPhoneNumberValid = ref(false);
     const phoneNumbers = ref<{ [key: string]: string }>({});
 
-    const validatePhone = (e: Event) => {
+    const validatePhone = async (e: Event) => {
       e.preventDefault();
       if (!phoneInput.value) return;
 
@@ -25,14 +26,25 @@ export default defineComponent({
           international: phoneInput.value.getPhoneNumberFormatted('INTERNATIONAL'),
           rfc3966: phoneInput.value.getPhoneNumberFormatted('RFC3966')
         };
+        // Attendre que le DOM soit mis à jour
+        await nextTick();
+        // Mettre le focus sur le conteneur de résultat
+        phoneValidCard.value?.focus();
       } else {
         isPhoneNumberValid.value = false;
         phoneNumbers.value = {};
+        if (phoneInput.value.focus) {
+          phoneInput.value.focus();
+        } else {
+          const inputEl = phoneInput.value.$el.querySelector('input');
+          inputEl && inputEl.focus();
+        }
       }
     };
 
     return {
       phoneInput,
+      phoneValidCard,
       isPhoneNumberValid,
       phoneNumbers,
       validatePhone
@@ -41,7 +53,7 @@ export default defineComponent({
 });
 </script>
 <template>
-  <div class="fr-container">
+  <main class="fr-container" role="main">
     <div class="fr-grid-row fr-grid-row--center fr-grid-row--middle" style="min-height: 75vh;">
       <div class="fr-col-12 fr-col-lg-5 fr-col-offset-lg-1">
         <h1 class="fr-h4">Démonstration du paquet dsfr-tel</h1>
@@ -52,7 +64,7 @@ export default defineComponent({
           </div>
         </form>
 
-        <div class="fr-mt-2w fr-card fr-p-3w" v-if="isPhoneNumberValid">
+        <div class="fr-mt-2w fr-card fr-p-3w" v-if="isPhoneNumberValid" tabindex="-1" ref="phoneValidCard">
           <p>Numéro valide au format :</p>
           <ul>
             <li v-for="(formatted, format) in phoneNumbers" :key="format">
@@ -70,7 +82,7 @@ export default defineComponent({
         </a>
       </p>
     </div>
-  </div>
+  </main>
 </template>
 
 <style scoped>
