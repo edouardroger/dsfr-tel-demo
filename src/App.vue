@@ -12,6 +12,7 @@ export default defineComponent({
     const phoneValidCard = ref<HTMLDivElement | null>(null);
     const isPhoneNumberValid = ref(false);
     const phoneNumbers = ref<{ [key: string]: string }>({});
+    const phoneType = ref('');
 
     const validatePhone = async (e: Event) => {
       e.preventDefault();
@@ -20,6 +21,7 @@ export default defineComponent({
       const isValid = phoneInput.value.validatePhoneNumber();
       if (isValid) {
         isPhoneNumberValid.value = true;
+        phoneType.value = phoneInput.value.getPhoneNumberType(); // Récupère le type du numéro
         phoneNumbers.value = {
           national: phoneInput.value.getPhoneNumberFormatted('NATIONAL'),
           e164: phoneInput.value.getPhoneNumberFormatted('E164'),
@@ -33,6 +35,7 @@ export default defineComponent({
       } else {
         isPhoneNumberValid.value = false;
         phoneNumbers.value = {};
+        phoneType.value = '';
         if (phoneInput.value.focus) {
           phoneInput.value.focus();
         } else {
@@ -47,6 +50,7 @@ export default defineComponent({
       phoneValidCard,
       isPhoneNumberValid,
       phoneNumbers,
+      phoneType,
       validatePhone
     };
   }
@@ -65,10 +69,12 @@ export default defineComponent({
         </form>
 
         <div class="fr-mt-2w fr-card fr-p-3w" v-if="isPhoneNumberValid" tabindex="-1" ref="phoneValidCard">
-          <p>Numéro valide au format :</p>
+          <p>
+            Numéro valide <span v-if="phoneType"> (type : {{ phoneType }})</span> au format :
+          </p>
           <ul>
             <li v-for="(formatted, format) in phoneNumbers" :key="format">
-              {{ String(format).charAt(0).toUpperCase() + String(format).slice(1) }} : {{ formatted }}
+              <span class="fr-text--bold">{{String(format).charAt(0).toUpperCase() + String(format).slice(1) }}</span> : {{ formatted }}
             </li>
           </ul>
         </div>
