@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent, ref, nextTick } from 'vue';
-import DsfrTel from 'dsfr-tel';
+import { DsfrTel } from 'dsfr-tel';
 
 export default defineComponent({
   name: 'App',
@@ -21,7 +21,7 @@ export default defineComponent({
       const isValid = phoneInput.value.validatePhoneNumber();
       if (isValid) {
         isPhoneNumberValid.value = true;
-        phoneType.value = phoneInput.value.getPhoneNumberType(); // Récupère le type du numéro
+        phoneType.value = phoneInput.value.getPhoneNumberType();
         phoneNumbers.value = {
           national: phoneInput.value.getPhoneNumberFormatted('NATIONAL'),
           e164: phoneInput.value.getPhoneNumberFormatted('E164'),
@@ -74,7 +74,8 @@ export default defineComponent({
           </p>
           <ul>
             <li v-for="(formatted, format) in phoneNumbers" :key="format">
-              <span class="fr-text--bold">{{String(format).charAt(0).toUpperCase() + String(format).slice(1) }}</span> : {{ formatted }}
+              <span class="fr-text--bold">{{ String(format).charAt(0).toUpperCase() + String(format).slice(1) }}</span> :
+              {{ formatted }}
             </li>
           </ul>
         </div>
