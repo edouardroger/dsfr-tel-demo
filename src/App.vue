@@ -68,7 +68,7 @@ export default defineComponent({
           </div>
         </form>
 
-        <div class="fr-mt-2w fr-card fr-p-3w" v-if="isPhoneNumberValid" tabindex="-1" ref="phoneValidCard">
+        <div class="fr-mt-2w fr-alert fr-alert--success" v-if="isPhoneNumberValid" tabindex="-1" ref="phoneValidCard">
           <p>
             Numéro valide <span v-if="phoneType"> (type : {{ phoneType }})</span> au format :
           </p>
